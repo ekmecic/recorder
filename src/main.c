@@ -7,7 +7,7 @@
 int main() {
   const uint8_t numChannels = 2;
   const uint32_t numSamples = 25000;
-  uint16_t dataArray[numChannels][numSamples];
+  uint16_t dataArray[numSamples][numChannels];
 
   pruIo *io = pruio_new(PRUIO_DEF_ACTIVE, 0, 0, 0);
   if (io->Errr) {
@@ -30,7 +30,7 @@ int main() {
   // Data capture routine
   for (int i = 0; i < numSamples; i++) {
     for (int j = 0; j < numChannels; j++) {
-      dataArray[j][i] = io->Adc->Value[j + 1];
+      dataArray[i][j] = io->Adc->Value[j + 1];
     }
     usleep(10);
   }
@@ -46,10 +46,10 @@ int main() {
   for (int i = 0; i < numSamples; i++) {
     fprintf(datafile, "%d,", i);
     for (int j = 0; j < (numChannels - 1); j++) {
-      fprintf(datafile, "%d,", dataArray[j][i]);
+      fprintf(datafile, "%d,", dataArray[i][j]);
     }
     // We do the last one separately to avoid a trailing comma/add a newline
-    fprintf(datafile, "%d\n", dataArray[numChannels - 1][i]);
+    fprintf(datafile, "%d\n", dataArray[i][numChannels - 1]);
   }
 
   fclose(datafile);
