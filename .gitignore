@@ -1,0 +1,7 @@
+# CMake stuff
+build/
+
+# Emil's stuff
+.stfolder
+.stversions
+.dir-locals.el
