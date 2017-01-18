@@ -43,8 +43,8 @@ int main() {
   struct timespec time;
 
   // Data capture routine
-  for (int i = 0; i < numSamples; i++) {
-    for (int j = 1; j < numChannels; j++) {
+  for (uint32_t i = 0; i < numSamples; i++) {
+    for (uint8_t j = 1; j < numChannels; j++) {
       clock_gettime(CLOCK_REALTIME, &time);
       *timestampArray[i] = (int64_t)(time.tv_sec) * (int64_t)1000000000 + (int64_t)(time.tv_nsec);
       dataArray[i][j] = io->Adc->Value[j];
@@ -54,9 +54,9 @@ int main() {
   FILE *datafile = fopen("output.txt", "w+");
   // Data dumping routine
   uint64_t initTime = *timestampArray[0];
-  for (int i = 0; i < numSamples; i++) {
+  for (uint32_t i = 0; i < numSamples; i++) {
     // Subtract the init time from the timestamp to get timestamps relative to program init
-    fprintf(datafile, "%lu,", *timestampArray[i] - initTime);
+    fprintf(datafile, "%llu,", *timestampArray[i] - initTime);
     for (int j = 0; j < numChannels; j++) {
       fprintf(datafile, "%d,", dataArray[i][j]);
     }
