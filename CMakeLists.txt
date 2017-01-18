@@ -9,6 +9,8 @@ set(CMAKE_C_FLAGS "-std=gnu99 -Wall -Wextra -lrt -O3")
 file(GLOB_RECURSE SOURCES
   ${CMAKE_SOURCE_DIR}/src/*.h
   ${CMAKE_SOURCE_DIR}/src/*.c
+  ${CMAKE_SOURCE_DIR}/lib/*.h
+  ${CMAKE_SOURCE_DIR}/lib/*.c
 )
 
 include_directories(
