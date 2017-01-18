@@ -25,7 +25,7 @@ void saveData(uint16_t **dataArray, uint64_t **timestampArray,
     // Make timestamps relative to program init
     fprintf(datafile, "%llu,", *timestampArray[i] - initTime);
     // Send the data to the text file
-    for (int j = 0; j < numChannels; j++) {
+    for (int j = 0; j < (numChannels - 1); j++) {
       fprintf(datafile, "%d,", dataArray[i][j]);
     }
     // We do the last one separately to avoid a trailing comma/add a newline
