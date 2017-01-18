@@ -1,13 +1,29 @@
 #include "../include/libpruio/src/pruio.h"
 
+#include <stdlib.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <time.h>
+
+#ifndef CLOCK_REALTIME
+#define CLOCK_REALTIME 1
+#endif
 
 int main() {
-  const uint8_t numChannels = 2;
-  const uint32_t numSamples = 25000;
-  uint16_t dataArray[numSamples][numChannels];
+  const uint8_t numChannels = 3;
+  const uint32_t numSamples = 10000000;
+
+  int rows = numSamples;
+  int columns = numChannels;
+  uint16_t **dataArray = (uint16_t **)malloc(rows * sizeof(uint16_t *));
+  for (int i = 0; i < rows; i++) {
+    dataArray[i] = (uint16_t *)malloc(columns * sizeof(uint16_t));
+  }
+  uint64_t **timestampArray = (uint64_t **)malloc(rows * sizeof(uint64_t *));
+  for (int i = 0; i < rows; i++) {
+    timestampArray[i] = (uint64_t *)malloc(columns * sizeof(uint64_t));
+  }
 
   pruIo *io = pruio_new(PRUIO_DEF_ACTIVE, 0, 0, 0);
   if (io->Errr) {
@@ -24,28 +40,24 @@ int main() {
       printf("AIN-%d configuration failed with error message %s", i, io->Errr);
     }
   }
+  struct timespec time;
 
-  struct timeval  tv1, tv2;
-  gettimeofday(&tv1, NULL);
   // Data capture routine
   for (int i = 0; i < numSamples; i++) {
-    for (int j = 0; j < numChannels; j++) {
-      dataArray[i][j] = io->Adc->Value[j + 1];
+    for (int j = 1; j < numChannels; j++) {
+      clock_gettime(CLOCK_REALTIME, &time);
+      *timestampArray[i] = (int64_t)(time.tv_sec) * (int64_t)1000000000 + (int64_t)(time.tv_nsec);
+      dataArray[i][j] = io->Adc->Value[j];
     }
-    usleep(10);
   }
-  gettimeofday(&tv2, NULL);
-
-  printf ("Total time to capture %d samples was %f seconds\n",
-          numSamples,
-          (double) (tv2.tv_usec - tv1.tv_usec) / 1000000 +
-          (double) (tv2.tv_sec - tv1.tv_sec));
 
   FILE *datafile = fopen("output.txt", "w+");
   // Data dumping routine
+  uint64_t initTime = *timestampArray[0];
   for (int i = 0; i < numSamples; i++) {
-    fprintf(datafile, "%d,", i);
-    for (int j = 0; j < (numChannels - 1); j++) {
+    // Subtract the init time from the timestamp to get timestamps relative to program init
+    fprintf(datafile, "%lu,", *timestampArray[i] - initTime);
+    for (int j = 0; j < numChannels; j++) {
       fprintf(datafile, "%d,", dataArray[i][j]);
     }
     // We do the last one separately to avoid a trailing comma/add a newline
@@ -54,6 +66,8 @@ int main() {
 
   fclose(datafile);
   pruio_destroy(io);
+  free(dataArray);
+  free(timestampArray);
 
   return 0;
 }
