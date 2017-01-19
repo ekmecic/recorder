@@ -3,4 +3,4 @@
 #include <stdint.h>
 #include <stdio.h>
 
-void configurePRU(pruIo *io, const uint8_t numChannels);
+void configurePRU(pruIo *io, uint8_t numChannels);

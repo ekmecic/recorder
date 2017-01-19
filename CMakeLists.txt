@@ -11,6 +11,8 @@ file(GLOB_RECURSE SOURCES
   ${CMAKE_SOURCE_DIR}/src/*.c
   ${CMAKE_SOURCE_DIR}/lib/*.h
   ${CMAKE_SOURCE_DIR}/lib/*.c
+  ${CMAKE_SOURCE_DIR}/include/argparse/*.h
+  ${CMAKE_SOURCE_DIR}/include/argparse/*.c
 )
 
 include_directories(
