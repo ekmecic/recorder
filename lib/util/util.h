@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 uint16_t **makeArray16(uint32_t numRows, uint32_t numCols);
 uint64_t **makeArray64(uint32_t numRows, uint32_t numCols);
