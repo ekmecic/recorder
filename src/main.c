@@ -11,7 +11,6 @@ int main(int argc, const char **argv) {
   uint16_t waitTime = 0;
 
   parseArguments(argc, argv, &numSamples, &numChannels, &waitTime);
-
   // Create our arrays that hold the sampled data and timestamps
   uint16_t **dataArray = makeArray16(numSamples, numChannels);
   uint64_t **timestampArray = makeArray64(numSamples, numChannels);
@@ -22,7 +21,7 @@ int main(int argc, const char **argv) {
   struct timespec time;
   // Data capture routine
   for (uint32_t i = 0; i < numSamples; i++) {
-    for (uint8_t j = 1; j < numChannels; j++) {
+    for (uint8_t j = 0; j <= numChannels; j++) {
       // Get the data from the PRU/ADC and save it to the data array
       dataArray[i][j] = io->Adc->Value[j];
       // Get a timestamp and save it to the timestamp array

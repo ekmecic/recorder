@@ -40,7 +40,7 @@ void parseArguments(int argc, const char *argv[], uint32_t *numSamples,
     printf("ERROR: Invalid number of samples selected. Exiting now.\n");
     exit(-1);
   }
-  if (_numChannels > 6 || _numChannels < 1) {
+  if (_numChannels > 7 || _numChannels < 1) {
     printf("ERROR: Malformed channel selection. Exiting now.\n");
     exit(-1);
   }

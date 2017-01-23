@@ -5,14 +5,14 @@
 uint16_t **makeArray16(uint32_t numSamples, uint32_t numChannels) {
   uint16_t **array = (uint16_t **)malloc(numSamples * sizeof(uint16_t *));
   for (uint32_t i = 0; i < numSamples; i++) {
-    array[i] = (uint16_t *)malloc(numChannels * sizeof(uint16_t));
+    array[i] = (uint16_t *)malloc((numChannels + 1) * sizeof(uint16_t));
   }
   return array;
 }
 uint64_t **makeArray64(uint32_t numSamples, uint32_t numChannels) {
   uint64_t **array = (uint64_t **)malloc(numSamples * sizeof(uint64_t *));
   for (uint32_t i = 0; i < numSamples; i++) {
-    array[i] = (uint64_t *)malloc(numChannels * sizeof(uint64_t));
+    array[i] = (uint64_t *)malloc((numChannels + 1) * sizeof(uint64_t));
   }
   return array;
 }
@@ -25,11 +25,11 @@ void saveData(uint16_t **dataArray, uint64_t **timestampArray,
     // Make timestamps relative to program init
     fprintf(datafile, "%llu,", *timestampArray[i] - initTime);
     // Send the data to the text file
-    for (int j = 0; j < (numChannels - 1); j++) {
+    for (int j = 1; j < numChannels ; j++) {
       fprintf(datafile, "%d,", dataArray[i][j]);
     }
     // We do the last one separately to avoid a trailing comma/add a newline
-    fprintf(datafile, "%d\n", dataArray[i][numChannels - 1]);
+    fprintf(datafile, "%d\n", dataArray[i][numChannels]);
   }
   // Close the file once we're done with it
   fclose(datafile);
