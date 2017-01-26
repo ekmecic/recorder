@@ -1,9 +1,6 @@
 #pragma once
 #include "../../include/argparse/argparse.h"
 
-static const char *const usage[] = {
-    "recorder [options] [[--] args]", NULL,
-};
 /*
   parseArguments - Parses command line arguments and saves them to
                    variables used by the program.
