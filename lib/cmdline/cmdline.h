@@ -15,4 +15,4 @@
     numMeasurements, numChannels and waitTime are modified in the function.
 */
 void parseArguments(int argc, const char *argv[], uint32_t *numMeasurements,
-                    uint8_t *numChannels, uint16_t *waitTime);
+                    uint8_t *numChannels, uint32_t *waitTime);

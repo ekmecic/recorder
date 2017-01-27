@@ -5,10 +5,10 @@ static const char *const usage[] = {
 };
 
 void parseArguments(int argc, const char *argv[], uint32_t *numMeasurements,
-                    uint8_t *numChannels, uint16_t *waitTime) {
+                    uint8_t *numChannels, uint32_t *waitTime) {
   uint32_t _numMeasurements = 0;
   uint8_t _numChannels = 0;
-  uint16_t _waitTime = 0;
+  uint32_t _waitTime = 0;
 
   // The flags that the program provides
   struct argparse_option options[] = {

@@ -4,11 +4,12 @@
 
 #include <stdint.h>
 #include <time.h>
+#include <unistd.h>
 
 int main(int argc, const char **argv) {
   uint32_t numMeasurements = 0;
   uint8_t numChannels = 0;
-  uint16_t waitTime = 0;
+  uint32_t waitTime = 0; // Time to wait between cycles in microsecs
 
   parseArguments(argc, argv, &numMeasurements, &numChannels, &waitTime);
   // Create our arrays that hold the sampled data and timestamps
@@ -28,6 +29,10 @@ int main(int argc, const char **argv) {
       clock_gettime(CLOCK_REALTIME, &time);
       *timestampArray[i] = (int64_t)(time.tv_sec) * (int64_t)1000000000 +
                            (int64_t)(time.tv_nsec);
+    }
+    // Wait between cycles for waitTime usecs if the user wants to
+    if (waitTime != 0) {
+      usleep(waitTime);
     }
   }
 
