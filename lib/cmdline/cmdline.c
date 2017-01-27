@@ -1,7 +1,7 @@
 #include "cmdline.h"
 
 static const char *const usage[] = {
-  "recorder [options] [[--] args]", NULL,
+    "recorder [options] [[--] args]", NULL,
 };
 
 void parseArguments(int argc, const char *argv[], uint32_t *numMeasurements,
@@ -12,12 +12,14 @@ void parseArguments(int argc, const char *argv[], uint32_t *numMeasurements,
 
   // The flags that the program provides
   struct argparse_option options[] = {
+      // clang-format off
       OPT_HELP(),
       OPT_GROUP("Basic options:"),
       OPT_INTEGER('m', "measurements", &_numMeasurements, "Number of measurements"),
       OPT_INTEGER('c', "channels", &_numChannels, "Number of channels"),
       OPT_INTEGER('w', "waittime", &_waitTime, "How much to delay measuerments"),
       OPT_END(),
+      // clang-format on
   };
 
   struct argparse argparse;
@@ -29,8 +31,8 @@ void parseArguments(int argc, const char *argv[], uint32_t *numMeasurements,
       &argparse,
       "\nrecorder records analog data on pins AIN-1-AIN6 at very fast speeds.",
       "\nMore information:"
-      "\n    Wait time delays the measuring by <int> microseconds. If you don't "
-      "\n    supply an argument the program will run as fast as possible. "
+      "\n    Wait time delays the measuring by <int> microseconds. If you don't"
+      "\n    supply an argument the program will run as fast as possible."
       "\n    Channels is a mandatory argument which selects how many analog"
       "\n    input pins will be read."
       "\n    Measurements is a mandatory argument which selects how many"
@@ -38,9 +40,14 @@ void parseArguments(int argc, const char *argv[], uint32_t *numMeasurements,
       "\n    or the BBB will run out of RAM.");
   argc = argparse_parse(&argparse, argc, argv);
 
-  // Sanity check to make sure the inputs are valid
+  // Dumb sanity checks to make sure the inputs are valid
+  if (_numMeasurements == 0 && numChannels == 0 && _waitTime == 0) {
+    printf("ERROR: No arguments supplied. Use the --help flag for help."
+           "Exiting now.\n");
+    exit(-1);
+  }
   // 20000000 as the max number of measurements is arbitrary, but increasing
-  // it may cause the BBB to run out of memory during execution
+  // it may cause the BBB to run out of memory during execution so be warned
   if (_numMeasurements < 1 || _numMeasurements >= 20000000) {
     printf("ERROR: Invalid number of measurements selected. Exiting now.\n");
     exit(-1);
