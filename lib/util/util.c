@@ -1,17 +1,17 @@
 #include "util.h"
 
-uint16_t **makeArray16(uint32_t numMeasurements, uint32_t numChannels) {
-  uint16_t **array = (uint16_t **)malloc(numMeasurements * sizeof(uint16_t *));
-  for (uint32_t i = 0; i < numMeasurements; i++) {
-    array[i] = (uint16_t *)malloc((numChannels + 1) * sizeof(uint16_t));
+uint16_t **makeArray16(uint32_t numRows, uint32_t numCols) {
+  uint16_t **array = (uint16_t **)malloc(numRows * sizeof(uint16_t *));
+  for (uint32_t i = 0; i < numRows; i++) {
+    array[i] = (uint16_t *)malloc((numCols + 1) * sizeof(uint16_t));
   }
   return array;
 }
 
-uint64_t **makeArray64(uint32_t numMeasurements, uint32_t numChannels) {
-  uint64_t **array = (uint64_t **)malloc(numMeasurements * sizeof(uint64_t *));
-  for (uint32_t i = 0; i < numMeasurements; i++) {
-    array[i] = (uint64_t *)malloc((numChannels + 1) * sizeof(uint64_t));
+uint64_t **makeArray64(uint32_t numRows, uint32_t numCols) {
+  uint64_t **array = (uint64_t **)malloc(numRows * sizeof(uint64_t *));
+  for (uint32_t i = 0; i < numRows; i++) {
+    array[i] = (uint64_t *)malloc((numCols + 1) * sizeof(uint64_t));
   }
   return array;
 }
