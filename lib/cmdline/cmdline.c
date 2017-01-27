@@ -48,7 +48,7 @@ void parseArguments(int argc, const char *argv[], uint32_t *numMeasurements,
   }
   // 20000000 as the max number of measurements is arbitrary, but increasing
   // it may cause the BBB to run out of memory during execution so be warned
-  if (_numMeasurements < 1 || _numMeasurements >= 20000000) {
+  if (_numMeasurements < 1 || _numMeasurements > 10000000) {
     printf("ERROR: Invalid number of measurements selected. Exiting now.\n");
     exit(-1);
   }

@@ -21,22 +21,20 @@
 uint16_t **makeArray16(uint32_t numRows, uint32_t numCols);
 
 /*
-  makeArray64 - Creates a heap-allocated array of 64-bit integers
-                of size numRows x numCols.
+  makeArray64 - Creates a heap-allocated 1D array of 64-bit integers
+                of size numRows.
                 Ideally we'd have combine the 16- and 64-bit arrays
                 into one, but the timestamps are in nanoseconds and don't
                 fit into 16-bit integers.
   Inputs:
     1. numRows - The number of rows the array will have, typically
                  the number of measurements to be taken.
-    2. numCols - The number of columns the array will have, typically
-                 just 1.
 
   Output:
     A heap-allocated array of 64-bit integers meant to store the
     timestamps for each sampling event.
  */
-uint64_t **makeArray64(uint32_t numRows, uint32_t numCols);
+uint64_t *makeArray64(uint32_t numRows);
 
 /*
   getFilenameString - Creates a name for the CSV output file based
@@ -57,8 +55,8 @@ char *getFilenameString();
   saveData - Creates a file and dumps all of the recorded data
              to it in CSV format.
   Inputs:
-    1. dataArray - The 16-bit array that holds the ADC values.
-    2. timestampArray - The 64-bit array that holds the timestamps.
+    1. dataArray - The 16-bit 2D array that holds the ADC values.
+    2. timestampArray - The 64-bit 1D array that holds the timestamps.
     3. numMeasurements - Number of measurements taken.
     4. numChannels - Number of channels sampled.
 
@@ -66,5 +64,5 @@ char *getFilenameString();
     A CSV file in the same directory as the executable containing
     timestamped ADC data from all of the sampled channels.
  */
-void saveData(uint16_t **dataArray, uint64_t **timestampArray,
+void saveData(uint16_t **dataArray, uint64_t *timestampArray,
               uint32_t numMeasurements, uint8_t numChannels);

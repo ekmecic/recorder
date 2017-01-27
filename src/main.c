@@ -14,7 +14,7 @@ int main(int argc, const char **argv) {
   parseArguments(argc, argv, &numMeasurements, &numChannels, &waitTime);
   // Create our arrays that hold the sampled data and timestamps
   uint16_t **dataArray = makeArray16(numMeasurements, numChannels);
-  uint64_t **timestampArray = makeArray64(numMeasurements, numChannels);
+  uint64_t *timestampArray = makeArray64(numMeasurements);
 
   // Configure the PRU and timestamps
   pruIo *io = pruio_new(PRUIO_DEF_ACTIVE, 0, 0, 0);
@@ -27,7 +27,7 @@ int main(int argc, const char **argv) {
       dataArray[i][j] = io->Adc->Value[j];
       // Get a timestamp and save it to the timestamp array
       clock_gettime(CLOCK_REALTIME, &time);
-      *timestampArray[i] = (int64_t)(time.tv_sec) * (int64_t)1000000000 +
+      timestampArray[i] = (int64_t)(time.tv_sec) * (int64_t)1000000000 +
                            (int64_t)(time.tv_nsec);
     }
     // Wait between cycles for waitTime usecs if the user wants to

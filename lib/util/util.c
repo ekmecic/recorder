@@ -8,11 +8,8 @@ uint16_t **makeArray16(uint32_t numRows, uint32_t numCols) {
   return array;
 }
 
-uint64_t **makeArray64(uint32_t numRows, uint32_t numCols) {
-  uint64_t **array = (uint64_t **)malloc(numRows * sizeof(uint64_t *));
-  for (uint32_t i = 0; i < numRows; i++) {
-    array[i] = (uint64_t *)malloc((numCols + 1) * sizeof(uint64_t));
-  }
+uint64_t *makeArray64(uint32_t numMeasurements) {
+  uint64_t *array = (uint64_t *)malloc(sizeof(uint64_t) * numMeasurements);
   return array;
 }
 
@@ -28,16 +25,16 @@ char *getFilenameString() {
   return filenameString;
 }
 
-void saveData(uint16_t **dataArray, uint64_t **timestampArray,
+void saveData(uint16_t **dataArray, uint64_t *timestampArray,
               uint32_t numMeasurements, uint8_t numChannels) {
   char *filenameString = getFilenameString();
   FILE *dataFile = fopen(filenameString, "w+");
   free(filenameString);
 
-  uint64_t initTime = *timestampArray[0];
+  uint64_t initTime = timestampArray[0];
   for (uint32_t i = 0; i < numMeasurements; i++) {
     // Make timestamps relative to program init
-    fprintf(dataFile, "%llu,", *timestampArray[i] - initTime);
+    fprintf(dataFile, "%llu,", timestampArray[i] - initTime);
     // Copy the data to the text file
     for (int j = 1; j < numChannels; j++) {
       fprintf(dataFile, "%d,", dataArray[i][j]);
