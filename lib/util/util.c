@@ -1,16 +1,16 @@
 #include "util.h"
 
-uint16_t **makeArray16(uint32_t numSamples, uint32_t numChannels) {
-  uint16_t **array = (uint16_t **)malloc(numSamples * sizeof(uint16_t *));
-  for (uint32_t i = 0; i < numSamples; i++) {
+uint16_t **makeArray16(uint32_t numMeasurements, uint32_t numChannels) {
+  uint16_t **array = (uint16_t **)malloc(numMeasurements * sizeof(uint16_t *));
+  for (uint32_t i = 0; i < numMeasurements; i++) {
     array[i] = (uint16_t *)malloc((numChannels + 1) * sizeof(uint16_t));
   }
   return array;
 }
 
-uint64_t **makeArray64(uint32_t numSamples, uint32_t numChannels) {
-  uint64_t **array = (uint64_t **)malloc(numSamples * sizeof(uint64_t *));
-  for (uint32_t i = 0; i < numSamples; i++) {
+uint64_t **makeArray64(uint32_t numMeasurements, uint32_t numChannels) {
+  uint64_t **array = (uint64_t **)malloc(numMeasurements * sizeof(uint64_t *));
+  for (uint32_t i = 0; i < numMeasurements; i++) {
     array[i] = (uint64_t *)malloc((numChannels + 1) * sizeof(uint64_t));
   }
   return array;
@@ -29,13 +29,13 @@ char *getFilenameString() {
 }
 
 void saveData(uint16_t **dataArray, uint64_t **timestampArray,
-              uint32_t numSamples, uint8_t numChannels) {
+              uint32_t numMeasurements, uint8_t numChannels) {
   char *filenameString = getFilenameString();
   FILE *dataFile = fopen(filenameString, "w+");
   free(filenameString);
 
   uint64_t initTime = *timestampArray[0];
-  for (uint32_t i = 0; i < numSamples; i++) {
+  for (uint32_t i = 0; i < numMeasurements; i++) {
     // Make timestamps relative to program init
     fprintf(dataFile, "%llu,", *timestampArray[i] - initTime);
     // Copy the data to the text file

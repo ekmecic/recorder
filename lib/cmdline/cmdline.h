@@ -7,12 +7,12 @@
 
   Inputs:
   1. argc and argv - The actual command line arguments.
-  2. numSamples, numChannels, waitTime - The variables that are set
+  2. numMeasurements, numChannels, waitTime - The variables that are set
      through the command line.
      Note that they are passed by reference.
 
   Output:
-    numSamples, numChannels and waitTime are modified in the function.
+    numMeasurements, numChannels and waitTime are modified in the function.
 */
-void parseArguments(int argc, const char *argv[], uint32_t *numSamples,
+void parseArguments(int argc, const char *argv[], uint32_t *numMeasurements,
                     uint8_t *numChannels, uint16_t *waitTime);
